@@ -4,6 +4,9 @@ import { Container, VStack, Box, Input, Button, Text, Flex } from "@chakra-ui/re
 const Index = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [debtSize, setDebtSize] = useState("");
+  const [debtType, setDebtType] = useState("");
+  const [clientGoals, setClientGoals] = useState("");
 
   const handleSend = async () => {
     if (input.trim() === "") return;
@@ -20,7 +23,7 @@ const Index = () => {
           "Authorization": `Bearer YOUR_OPENAI_API_KEY`,
         },
         body: JSON.stringify({
-          prompt: input,
+          prompt: `Debt size: ${debtSize}\nType of debt: ${debtType}\nClient's goals: ${clientGoals}\nUser's message: ${input}\nProvide a personalized assessment based on the above information.`,
           max_tokens: 150,
         }),
       });
@@ -53,6 +56,25 @@ const Index = () => {
             mr={2}
           />
           <Button onClick={handleSend} colorScheme="blue">Send</Button>
+        </Flex>
+        <Flex width="100%" mt={4}>
+          <Input
+            value={debtSize}
+            onChange={(e) => setDebtSize(e.target.value)}
+            placeholder="Debt size..."
+            mr={2}
+          />
+          <Input
+            value={debtType}
+            onChange={(e) => setDebtType(e.target.value)}
+            placeholder="Type of debt..."
+            mr={2}
+          />
+          <Input
+            value={clientGoals}
+            onChange={(e) => setClientGoals(e.target.value)}
+            placeholder="Client's goals..."
+          />
         </Flex>
       </VStack>
     </Container>
